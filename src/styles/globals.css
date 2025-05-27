@@ -4,9 +4,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Font configuration for Tailwind CSS v4 */
 @theme {
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-bricolage-grotesque);
+  --font-sans: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-inter), ui-serif, Georgia, serif;
 }
 
 :root {
@@ -119,6 +120,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  
+  /* Configure font families for Tailwind CSS v4 */
+  --font-family-sans: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-serif: var(--font-inter), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   @keyframes accordion-down {
     from {
@@ -143,7 +148,69 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html {
+    font-family: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif !important;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif !important;
+  }
+  
+  /* Ensure all elements inherit the font */
+  *, *::before, *::after {
+    font-family: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif !important;
+  }
+  
+  /* Ensure font-sans uses our custom fonts */
+  .font-sans {
+    font-family: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif !important;
+  }
+  
+  /* Force font inheritance for common elements */
+  h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label, a {
+    font-family: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif !important;
   }
 }
+
+/* Add typing indicator animation */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  padding: 0 4px;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0.6;
+  display: inline-block;
+  animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes typing {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.8;
+  }
+} 

@@ -17,26 +17,9 @@ import {
 } from '~/components/ui/sidebar'
 import Header from './_components/header'
 import SidebarNav from './_components/sidebar-nav'
-import { Bricolage_Grotesque, Inter } from 'next/font/google'
-import { cn } from '~/lib/utils'
-
-const fontInter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const fontBricolageGrotesque = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage-grotesque",
-});
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn(
-      "min-h-screen h-full bg-background font-sans antialiased",
-      fontInter.variable,
-      fontBricolageGrotesque.variable,
-    )}>
     <SidebarProvider>
       <Sidebar 
         collapsible="icon" 
@@ -67,6 +50,5 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </main>
       </SidebarInset>
     </SidebarProvider>
-    </div>
   )
 }

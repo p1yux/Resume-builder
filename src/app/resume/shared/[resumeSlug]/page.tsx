@@ -116,7 +116,7 @@ export default function SharedResume() {
       return (
         <div className="container mx-auto py-8 relative">
           {renderResumeTemplate(decodedResume)}
-          <div className="py-2 text-center text-4xl font-bold">Pulpit</div>
+          <div className="py-2 text-center text-4xl font-bold">Podium</div>
           {includeChatbot && <SharedChatbot resumeData={decodedResume} />}
         </div>
       )
@@ -161,7 +161,7 @@ export default function SharedResume() {
   return (
     <div className="container mx-auto py-8 relative">
       {renderResumeTemplate(resume!)}
-      <div className="py-2 text-center text-4xl font-bold">Pulpit</div>
+      <div className="py-2 text-center text-4xl font-bold">Podium</div>
       {includeChatbot && <SharedChatbot resumeData={resume!} />}
     </div>
   )

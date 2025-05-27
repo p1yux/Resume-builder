@@ -123,7 +123,7 @@ export default function ResumeEditor({ slug, initialTemplate = 'base' }: ResumeE
             <FileText className="h-16 w-16 text-gray-300 mb-2" />
             <h2 className="text-xl font-semibold">Resume needs parsing</h2>
             <p className="text-gray-500 text-center max-w-md mb-4">
-              To view and edit your resume, we need to extract the information from your PDF. This will allow you to use all features of PulPit.
+              To view and edit your resume, we need to extract the information from your PDF. This will allow you to use all features of Podium.
             </p>
             
             <Button 

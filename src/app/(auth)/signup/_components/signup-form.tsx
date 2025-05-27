@@ -60,7 +60,7 @@ export default function SignupForm({ className, style }: SignupFormProps) {
         <div className="flex flex-col items-center text-center">
           <h1 className="text-2xl font-bold">Signup</h1>
           <p className="text-muted-foreground text-balance">
-            Get started with pulpit now by creating an account.
+            Get started with podium now by creating an account.
           </p>
         </div>
 

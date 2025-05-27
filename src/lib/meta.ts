@@ -12,7 +12,7 @@ export function getMetadata({
   skipRootLabel = false,
 }: GetMetadataArgs): Metadata {
   return {
-    title: skipRootLabel ? title : `${title} | Pulpit`,
+    title: skipRootLabel ? title : `${title} | Podium`,
     description,
   }
 }

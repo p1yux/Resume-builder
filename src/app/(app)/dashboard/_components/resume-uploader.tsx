@@ -93,7 +93,7 @@ export default function ResumeUploader({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upload Resume</DialogTitle>
-          <DialogDescription>Upload your new resume on pulpit</DialogDescription>
+          <DialogDescription>Upload your new resume on podium</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

@@ -13,5 +13,5 @@ export default function Header() {
     )
   }
 
-  return <div className="py-2 text-center text-4xl font-bold">PULPIT</div>
+  return <div className="py-2 text-center text-4xl font-bold">Podium</div>
 }

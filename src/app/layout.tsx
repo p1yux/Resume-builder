@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Bricolage_Grotesque, Inter } from 'next/font/google'
 import Providers from '~/components/providers'
 import { cn } from '~/lib/utils'
-
-import '../styles/globals.css'
+import '~/styles/markdown-style.css'
+import '~/styles/globals.css'
 import { Toaster } from '~/components/ui/sonner'
 
 
@@ -15,10 +15,11 @@ const fontInter = Inter({
 const fontBricolageGrotesque = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-bricolage-grotesque",
-});
+}); 
+
 
 export const metadata: Metadata = {
-  title: 'Pulpit',
+  title: 'Podium',
   description: 'Build your website with resume and AI.',
   icons: {
     icon: '/pulpitlogo.png',
@@ -31,12 +32,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={cn(
-                    "min-h-screen h-full bg-background font-sans antialiased",
-                    fontInter.variable,
-                    fontBricolageGrotesque.variable,
-                )}>
+    <html lang="en" className={cn(fontInter.variable, fontBricolageGrotesque.variable)} suppressHydrationWarning>
+      <body className="min-h-screen h-full bg-background antialiased" style={{ fontFamily: 'var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif' }}>
         <Providers>{children}</Providers>
         <Toaster />
       </body>

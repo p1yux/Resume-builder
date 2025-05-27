@@ -36,6 +36,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '~/components/ui/dialog'
+import { ThemeToggle } from '~/components/theme-toggle'
 
 const LINKS: Array<{
   label: string
@@ -52,7 +53,7 @@ const LINKS: Array<{
   {
     label: 'My Content',
     Icon: LayersIcon,
-    href: '/dashboard/contents',
+    href: '/dashboard/contents/work_experience',
     tooltip: 'Manage Content',
   },
   {
@@ -125,7 +126,7 @@ export default function SidebarNav() {
           </div>
           {!isCollapsed && (
             <div className="flex flex-col">
-              <span className="text-lg font-bold">PulPit</span>
+              <span className="text-lg font-bold">Podium</span>
               <span className="text-xs text-muted-foreground">Resume Builder</span>
             </div>
           )}
@@ -156,7 +157,7 @@ export default function SidebarNav() {
       <SidebarFooter className="mt-auto">
         <Separator className="my-2" />
         <SidebarMenu>
-          <SidebarMenuButton
+          {/* <SidebarMenuButton
             asChild
             tooltip="Profile"
             isActive={pathname.startsWith('/dashboard/profile')}
@@ -165,7 +166,12 @@ export default function SidebarNav() {
               <UserIcon className="h-5 w-5 shrink-0" />
               <span className="ml-2">Profile</span>
             </Link>
-          </SidebarMenuButton>
+          </SidebarMenuButton> */}
+          
+          <div className="flex items-center justify-between px-2 py-1">
+            <span className={cn("text-sm", isCollapsed && "sr-only")}>Theme</span>
+            <ThemeToggle />
+          </div>
           
           <SidebarMenuButton
             tooltip="Logout"

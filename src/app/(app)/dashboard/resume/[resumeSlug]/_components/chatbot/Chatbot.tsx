@@ -111,7 +111,7 @@ export const Chatbot: React.FC = () => {
             <div className="flex items-center justify-between">
               <CardTitle className="text-base flex items-center">
                 <MessageCircle className="h-5 w-5 mr-2" />
-                Pulpit Assistant
+                Podium Assistant
               </CardTitle>
               <div className="flex items-center gap-1">
                 <Button

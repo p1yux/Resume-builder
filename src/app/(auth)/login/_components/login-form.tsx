@@ -64,8 +64,8 @@ export default function LoginForm({ className, style }: LoginFormProps) {
         onSubmit={form.handleSubmit(handleLogin)}
       >
         <div className="flex flex-col items-center text-center">
-          <h1 className="text-2xl font-bold">Welcome back</h1>
-          <p className="text-muted-foreground text-balance">Login to your pulpit account</p>
+          <h1 className="text-2xl font-bold">Login</h1>
+          <p className="text-muted-foreground text-balance">Login to your podium account</p>
         </div>
 
         <FormField
@@ -91,11 +91,11 @@ export default function LoginForm({ className, style }: LoginFormProps) {
               <FormControl>
                 <Input type="password" placeholder="Your secure password" {...field} />
               </FormControl>
-              <FormDescription>
+              {/* <FormDescription>
                 <a href="#" className="ml-auto text-sm underline-offset-2 hover:underline">
                   Forgot your password?
                 </a>
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}

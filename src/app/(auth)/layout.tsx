@@ -1,26 +1,15 @@
 import Image from 'next/image'
 import { Card, CardContent } from '~/components/ui/card'
-import { Bricolage_Grotesque, Inter } from 'next/font/google'
-import { cn } from '~/lib/utils'
-
-const fontInter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const fontBricolageGrotesque = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage-grotesque",
-}); 
+import { ThemeToggle } from '~/components/theme-toggle'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn(
-      "min-h-screen h-full bg-background font-sans antialiased",
-      fontInter.variable,
-      fontBricolageGrotesque.variable,
-    )}>
-    <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+    <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10 relative">
+      {/* Theme toggle in top-right corner */}
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
+      
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className="flex flex-col gap-6">
           <Card className="overflow-hidden py-0">
@@ -43,7 +32,6 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
       </div>
-    </div>
     </div>
   )
 }
