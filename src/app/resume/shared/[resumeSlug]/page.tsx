@@ -16,6 +16,7 @@ import { SharedChatbot } from './_components/SharedChatbot'
 // Extended type that includes notes
 interface SharedResumeData extends ResumeData {
   notes?: Note[];
+  slugId: string;
 }
 
 // Create wrapped components with default props for preview
@@ -26,7 +27,7 @@ const BaseTemplatePreview = (props: { resumeData: SharedResumeData }) => {
       resumeData={resumeData} 
       isEditable={false}
       onDataChange={() => {}}
-      slugId="shared"
+      slugId={resumeData.slugId}
       initialNotes={notes}
       isShared={true}
     />
@@ -39,7 +40,7 @@ const MinimalTemplatePreview = (props: { resumeData: SharedResumeData }) => {
     <MinimalTemplate 
       resumeData={resumeData} 
       isEditable={false}
-      slugId="shared"
+      slugId={resumeData.slugId}
       initialNotes={notes}
     />
   )
@@ -51,7 +52,7 @@ const ModernTemplatePreview = (props: { resumeData: SharedResumeData }) => {
     <ModernTemplate 
       resumeData={resumeData} 
       isEditable={false}
-      slugId="shared"
+      slugId={resumeData.slugId}
       initialNotes={notes}
     />
   )
