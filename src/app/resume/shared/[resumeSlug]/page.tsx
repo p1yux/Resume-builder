@@ -96,7 +96,7 @@ export default function SharedResume() {
 
       const encryptedData = decodeURIComponent(encodedData)
       const decodedResume = decryptResumeData(encryptedData)
-      setResume(decodedResume)
+      setResume({...decodedResume, slugId: resumeSlug})
     } catch (err) {
       setError('Invalid share link')
       console.log(err)
@@ -116,7 +116,7 @@ export default function SharedResume() {
       const decodedResume = decryptResumeData(encryptedData)
       return (
         <div className="container mx-auto py-8 relative">
-          {renderResumeTemplate(decodedResume)}
+          {renderResumeTemplate({...decodedResume, slugId: resumeSlug})}
           <div className="py-2 text-center text-4xl font-bold">Podium</div>
           {includeChatbot && <SharedChatbot resumeData={decodedResume} />}
         </div>
