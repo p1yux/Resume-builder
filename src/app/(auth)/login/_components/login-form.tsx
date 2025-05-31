@@ -18,7 +18,7 @@ import { Button } from '~/components/ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { handleError } from '~/lib/error'
 import { toast } from 'sonner'
-import { login } from '../queries'
+import { useLogin } from '../queries'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 import { CSRF_TOKEN, SESSION_ID } from '~/lib/constants'
@@ -39,18 +39,7 @@ export default function LoginForm({ className, style }: LoginFormProps) {
     },
   })
 
-  const loginMutation = useMutation({
-    mutationFn: login,
-    onError: handleError,
-    onSuccess: () => {
-      // console.log('CSRF Token after login:', Cookies.get(CSRF_TOKEN));
-      // console.log('Session ID after login:', Cookies.get(SESSION_ID));
-      // console.log('All cookies:', Cookies.get());
-      
-      router.replace('/dashboard')
-      toast.success('Logged in successfully.')
-    },
-  })
+  const loginMutation = useLogin()
 
   function handleLogin(values: LoginSchema) {
     loginMutation.mutate(values)
