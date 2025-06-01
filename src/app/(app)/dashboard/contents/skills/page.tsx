@@ -530,10 +530,10 @@ export default function SkillsPage() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-white dark:bg-black min-h-screen">
       <div className="flex flex-col gap-5 mb-6 top-10 z-10 w-full justify-between items-center ">
-        {/* <h1 className="text-2xl font-bold flex items-center gap-2 mb-2">
-          <Code className="h-5 w-5 text-blue-600" />
+        {/* <h1 className="text-2xl font-bold flex items-center gap-2 mb-2 text-gray-900 dark:text-white">
+          <Code className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Skills
         </h1> */}
         <SectionNav />
@@ -542,19 +542,19 @@ export default function SkillsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left panel - List of skills */}
         <div>
-          <Card>
-            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-md font-medium">All Skills</CardTitle>
-              <Button variant="ghost" size="sm" className="h-8 px-2" onClick={handleAddClick}>
+          <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0 border-b border-gray-100 dark:border-gray-700">
+              <CardTitle className="text-md font-medium text-gray-900 dark:text-white">All Skills</CardTitle>
+              <Button variant="ghost" size="sm" className="h-8 px-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onClick={handleAddClick}>
                 <Plus className="h-4 w-4" /> Add New
               </Button>
             </CardHeader>
             <CardContent className="px-4 pb-4">
               <div className="relative mb-4">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                 <Input
                   placeholder="Search skills..."
-                  className="pl-8"
+                  className="pl-8 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -564,13 +564,13 @@ export default function SkillsPage() {
                 {resumesQuery.isLoading ? (
                   Array(5).fill(0).map((_, i) => (
                     <div key={i} className="mb-3">
-                      <Skeleton className="h-6 w-3/4 mb-1" />
-                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-6 w-3/4 mb-1 bg-gray-200 dark:bg-gray-700" />
+                      <Skeleton className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700" />
                     </div>
                   ))
                 ) : (
                   filteredSkills.length === 0 ? (
-                    <div className="text-center py-6 text-muted-foreground">
+                    <div className="text-center py-6 text-gray-500 dark:text-gray-400">
                       No skills found
                     </div>
                   ) : (
@@ -578,16 +578,16 @@ export default function SkillsPage() {
                       {filteredSkills.map((skill, index) => (
                         <div 
                           key={`${skill.resumeId}-${index}`}
-                          className={`p-2 rounded-md cursor-pointer border ${
+                          className={`p-2 rounded-md cursor-pointer border transition-all duration-200 ${
                             selectedItem === skill 
-                              ? 'border-blue-500 bg-blue-50' 
-                              : 'border-gray-200 hover:border-blue-300'
+                              ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-950/50' 
+                              : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-gray-50 dark:hover:bg-gray-800/50'
                           }`}
                           onClick={() => handleSelectItem(skill)}
                         >
-                          <div className="font-medium">{skill.name}</div>
+                          <div className="font-medium text-gray-900 dark:text-white">{skill.name}</div>
                           {skill.level && (
-                            <div className="text-xs text-muted-foreground mt-1">
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                               Level: {skill.level}/10
                             </div>
                           )}
@@ -603,20 +603,20 @@ export default function SkillsPage() {
         
         {/* Right panel - Selected skill details */}
         <div>
-          <Card>
-            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-md font-medium">
+          <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0 border-b border-gray-100 dark:border-gray-700">
+              <CardTitle className="text-md font-medium text-gray-900 dark:text-white">
                 {selectedItem ? 'Skill Details' : 'Select a skill'}
               </CardTitle>
               {selectedItem && (
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="h-8" onClick={handleEditClick}>
+                  <Button variant="outline" size="sm" className="h-8 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" onClick={handleEditClick}>
                     <Edit className="h-3.5 w-3.5 mr-1" /> Edit
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="h-8 text-red-500 hover:text-red-700 hover:bg-red-50"
+                    className="h-8 text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/50 border-red-300 dark:border-red-600"
                     onClick={() => setIsDeleteDialogOpen(true)}
                   >
                     <Trash2 className="h-3.5 w-3.5 mr-1" /> Delete
@@ -626,61 +626,61 @@ export default function SkillsPage() {
             </CardHeader>
             <CardContent className="px-4 pb-4">
               {!selectedItem ? (
-                <div className="flex flex-col items-center justify-center h-[calc(100vh-270px)] text-center text-muted-foreground">
-                  <Code className="h-12 w-12 mb-4 text-slate-300" />
+                <div className="flex flex-col items-center justify-center h-[calc(100vh-270px)] text-center text-gray-500 dark:text-gray-400">
+                  <Code className="h-12 w-12 mb-4 text-gray-300 dark:text-gray-600" />
                   <p>Select a skill to view details</p>
                 </div>
               ) : (
                 <div onMouseUp={handleTextSelection} ref={detailsRef} className="relative space-y-4">
                   <div>
-                    <h3 className="text-lg font-semibold">{selectedItem.name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedItem.name}</h3>
                     {selectedItem.level && (
                       <div className="mt-2">
-                        <p className="text-sm text-muted-foreground mb-1">Proficiency Level</p>
-                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Proficiency Level</p>
+                        <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-blue-500 rounded-full" 
+                            className="h-full bg-blue-500 dark:bg-blue-400 rounded-full" 
                             style={{ width: `${(selectedItem.level / 10) * 100}%` }}
                           ></div>
                         </div>
-                        <p className="text-xs text-right mt-1 text-muted-foreground">{selectedItem.level}/10</p>
+                        <p className="text-xs text-right mt-1 text-gray-500 dark:text-gray-400">{selectedItem.level}/10</p>
                       </div>
                     )}
                     
                     <div className="mt-4">
-                      <h4 className="text-sm font-medium mb-2">Associated Resume</h4>
-                      <Badge variant="outline">
+                      <h4 className="text-sm font-medium mb-2 text-gray-900 dark:text-white">Associated Resume</h4>
+                      <Badge variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
                         {selectedItem.resumeTitle}
                       </Badge>
                     </div>
                   </div>
                   
-                  <Separator />
+                  <Separator className="bg-gray-200 dark:bg-gray-700" />
                   
                   <div>
-                    <h4 className="font-medium mb-2">Notes</h4>
+                    <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Notes</h4>
                     {notesQuery.isLoading ? (
                       <div className="space-y-2">
-                        <Skeleton className="h-20 w-full" />
-                        <Skeleton className="h-20 w-full" />
+                        <Skeleton className="h-20 w-full bg-gray-200 dark:bg-gray-700" />
+                        <Skeleton className="h-20 w-full bg-gray-200 dark:bg-gray-700" />
                       </div>
                     ) : notes.length === 0 ? (
-                      <div className="text-muted-foreground text-sm">
+                      <div className="text-gray-500 dark:text-gray-400 text-sm">
                         No notes added yet. Select text above to add a note.
                       </div>
                     ) : (
                       <div className="space-y-3">
                         {notes.map(note => (
-                          <div key={note.id} className="p-3 border rounded-md">
+                          <div key={note.id} className="p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800">
                             <div className="flex justify-between items-start mb-2">
-                              <div className="p-2 bg-yellow-50 border border-yellow-200 rounded text-sm font-medium">
+                              <div className="p-2 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded text-sm font-medium text-gray-900 dark:text-white">
                                 "{note.selected_text}"
                               </div>
                               <div className="flex space-x-1">
                                 <Button 
                                   variant="ghost" 
                                   size="sm" 
-                                  className="h-7 w-7 p-0 text-blue-500" 
+                                  className="h-7 w-7 p-0 text-blue-500 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50" 
                                   onClick={() => handleEditNoteClick(note)}
                                 >
                                   <Edit className="h-3.5 w-3.5" />
@@ -688,14 +688,14 @@ export default function SkillsPage() {
                                 <Button 
                                   variant="ghost" 
                                   size="sm" 
-                                  className="h-7 w-7 p-0 text-red-500" 
+                                  className="h-7 w-7 p-0 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50" 
                                   onClick={() => handleDeleteNote(note.id)}
                                 >
                                   <Trash2 className="h-3.5 w-3.5" />
                                 </Button>
                               </div>
                             </div>
-                            <p className="text-sm">{note.note}</p>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">{note.note}</p>
                           </div>
                         ))}
                       </div>
@@ -705,29 +705,29 @@ export default function SkillsPage() {
                   {/* Selection popover for adding notes */}
                   {isNotePopoverOpen && highlightPosition && (
                     <div 
-                      className="absolute bg-white shadow-lg rounded-md border p-3 z-10 w-80"
+                      className="absolute bg-white dark:bg-gray-900 shadow-lg rounded-md border border-gray-200 dark:border-gray-600 p-3 z-10 w-80"
                       style={{ 
                         top: `${highlightPosition.y - 10}px`, 
                         left: `${highlightPosition.x - 40}px`,
                         transform: 'translate(-50%, -100%)'
                       }}
                     >
-                      <div className="mb-2 font-medium">Add Note</div>
-                      <div className="mb-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm">
+                      <div className="mb-2 font-medium text-gray-900 dark:text-white">Add Note</div>
+                      <div className="mb-2 p-2 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded text-sm text-gray-900 dark:text-white">
                         {highlightText}
                       </div>
                       <Textarea 
                         placeholder="Enter your note" 
                         value={noteText}
                         onChange={(e) => setNoteText(e.target.value)}
-                        className="mb-2"
+                        className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                       />
                       <div className="flex justify-between">
                         <div className="flex space-x-1">
-                          <Button size="sm" variant="outline" className="px-2 py-1 h-7">
+                          <Button size="sm" variant="outline" className="px-2 py-1 h-7 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                             <Bold className="h-3.5 w-3.5" />
                           </Button>
-                          <Button size="sm" variant="outline" className="px-2 py-1 h-7">
+                          <Button size="sm" variant="outline" className="px-2 py-1 h-7 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                             <Underline className="h-3.5 w-3.5" />
                           </Button>
                         </div>
@@ -868,7 +868,7 @@ export default function SkillsPage() {
               {resumesQuery.data?.map((resume) => (
                 <div 
                   key={resume.slug}
-                  className="p-3 border rounded-md cursor-pointer hover:bg-slate-50"
+                  className="p-3 border rounded-md cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"
                   onClick={() => handleResumeSelect({ slug: resume.slug, title: resume.title })}
                 >
                   <div className="font-medium">{resume.title}</div>

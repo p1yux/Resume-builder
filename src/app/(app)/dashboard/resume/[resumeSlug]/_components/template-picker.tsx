@@ -48,7 +48,7 @@ export function TemplatePicker({
                 fill
                 className="object-contain"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+              {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
                 <Button 
                   size="sm" 
                   variant="secondary"
@@ -58,7 +58,7 @@ export function TemplatePicker({
                   <Eye className="h-3 w-3" />
                   Preview
                 </Button>
-              </div>
+              </div> */}
             </div>
             <div>
               <h3 className="font-medium text-sm">{template.name}</h3>

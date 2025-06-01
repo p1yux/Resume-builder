@@ -172,7 +172,7 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
     return createPortal(
       <div 
         ref={tooltipRef}
-        className="fixed bg-white p-2 rounded shadow-lg border w-[320px] break-words"
+        className="fixed bg-white dark:bg-gray-800 p-2 rounded shadow-lg border border-gray-200 dark:border-gray-600 w-[320px] break-words"
         style={{
           zIndex: 2147483647,
           top: `${tooltipPosition.top - 8}px`,
@@ -185,7 +185,7 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
       >
         {/* Add a tooltip arrow */}
         <div 
-          className="absolute w-3 h-3 bg-white transform rotate-45"
+          className="absolute w-3 h-3 bg-white dark:bg-gray-800 transform rotate-45"
           style={{
             bottom: '-6px',
             left: '50%',
@@ -197,20 +197,20 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
         
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-start gap-2">
-            <p className="text-sm flex-1">{note.note}</p>
+            <p className="text-sm text-gray-900 dark:text-gray-100 flex-1">{note.note}</p>
             <div className="flex gap-1">
               {(isImage || isPDF) && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 w-6 p-0 hover:bg-gray-100 relative group"
+                  className="h-6 w-6 p-0 hover:bg-gray-100 dark:hover:bg-gray-700 relative group"
                   onClick={() => {
                     setIsPreviewOpen(true);
                     setShowTooltip(false);
                   }}
                 >
-                  <Maximize2 className="h-3 w-3 text-blue-600" />
-                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  <Maximize2 className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                     Preview
                   </span>
                 </Button>
@@ -240,7 +240,7 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
   return (
     <span 
       ref={highlightRef}
-      className="note-highlight bg-yellow-200 relative group cursor-pointer" 
+      className="note-highlight bg-yellow-200 dark:bg-yellow-600 relative group cursor-pointer" 
       data-note-id={identifier}
       onMouseEnter={handleShowTooltip}
       onMouseLeave={handleHideTooltip}
@@ -249,7 +249,7 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
       {renderTooltip()}
       {isPreviewOpen && note.note_file && createPortal(
         <div 
-          className="fixed inset-0 bg-black/50 flex items-center justify-center"
+          className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center"
           style={{ 
             zIndex: 2147483646,
             position: 'fixed',
@@ -271,7 +271,7 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
         >
           <div 
             className={cn(
-              "bg-white rounded-lg p-4 relative",
+              "bg-white dark:bg-gray-800 rounded-lg p-4 relative border border-gray-200 dark:border-gray-600",
               isFullscreen ? "w-[95vw] h-[95vh]" : "max-w-[90vw] max-h-[90vh]"
             )}
             onClick={(e) => e.stopPropagation()}
@@ -280,25 +280,25 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => setIsFullscreen(prev => !prev)}
               >
                 {isFullscreen ? (
-                  <Minimize2 className="h-4 w-4" />
+                  <Minimize2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                 ) : (
-                  <Maximize2 className="h-4 w-4" />
+                  <Maximize2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                 )}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => {
                   setIsPreviewOpen(false);
                   setIsFullscreen(false);
                 }}
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4 text-gray-600 dark:text-gray-400" />
               </Button>
             </div>
             
@@ -317,26 +317,28 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
               />
             ) : isPDF && (
               <div className="flex flex-col items-center gap-4">
-                <div className="w-full max-w-full bg-white rounded-lg shadow-lg overflow-hidden">
-                  <div className="p-4 bg-gray-100 border-b flex justify-between items-center">
-                    <p className="text-sm font-medium">PDF Preview</p>
+                <div className="w-full max-w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                  <div className="p-4 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">PDF Preview</p>
                     <div className="flex gap-2">
                       {numPages && numPages > 1 && (
                         <>
                           <Button
                             variant="outline"
                             size="sm"
+                            className="border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                             onClick={handlePrevPage}
                             disabled={pageNumber <= 1}
                           >
                             Previous
                           </Button>
-                          <span className="text-sm">
+                          <span className="text-sm text-gray-700 dark:text-gray-300 flex items-center">
                             Page {pageNumber} of {numPages}
                           </span>
                           <Button
                             variant="outline"
                             size="sm"
+                            className="border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                             onClick={handleNextPage}
                             disabled={pageNumber >= (numPages || 1)}
                           >
@@ -346,14 +348,14 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
                       )}
                     </div>
                   </div>
-                  <div className="p-4 flex justify-center">
+                  <div className="p-4 flex justify-center bg-white dark:bg-gray-900">
                     <PDFErrorBoundary>
                       <Document
                         file={note.note_file}
                         onLoadSuccess={onDocumentLoadSuccess}
-                        loading={<div className="text-center p-4 flex items-center justify-center h-[200px]"><p>Loading PDF...</p></div>}
-                        error={<div className="text-center p-4 flex items-center justify-center h-[200px] text-red-500">Failed to load PDF. <Button variant="link" size="sm" onClick={handleDownload}>Download instead</Button></div>}
-                        noData={<div className="text-center p-4 flex items-center justify-center h-[200px]">No PDF file found.</div>}
+                        loading={<div className="text-center p-4 flex items-center justify-center h-[200px] text-gray-600 dark:text-gray-400"><p>Loading PDF...</p></div>}
+                        error={<div className="text-center p-4 flex items-center justify-center h-[200px] text-red-500 dark:text-red-400">Failed to load PDF. <Button variant="link" size="sm" onClick={handleDownload} className="text-blue-600 dark:text-blue-400">Download instead</Button></div>}
+                        noData={<div className="text-center p-4 flex items-center justify-center h-[200px] text-gray-600 dark:text-gray-400">No PDF file found.</div>}
                       >
                         {numPages !== null && numPages > 0 && (
                           <Page 
@@ -361,8 +363,8 @@ export const ReadOnlyHighlightedText = memo(({ text, note, identifier }: { text:
                             width={isFullscreen ? window.innerWidth * 0.7 : Math.min(window.innerWidth * 0.7, 700)}
                             renderAnnotationLayer={false}
                             renderTextLayer={false}
-                            loading={<div className="text-center p-4 flex items-center justify-center h-[200px]">Loading page...</div>}
-                            error={<div className="text-center p-4 flex items-center justify-center h-[200px] text-red-500">Error loading page.</div>}
+                            loading={<div className="text-center p-4 flex items-center justify-center h-[200px] text-gray-600 dark:text-gray-400">Loading page...</div>}
+                            error={<div className="text-center p-4 flex items-center justify-center h-[200px] text-red-500 dark:text-red-400">Error loading page.</div>}
                           />
                         )}
                       </Document>

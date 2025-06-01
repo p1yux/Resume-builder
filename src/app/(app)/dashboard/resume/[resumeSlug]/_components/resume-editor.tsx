@@ -233,7 +233,7 @@ export default function ResumeEditor({ slug, initialTemplate = 'base' }: ResumeE
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="bg-white shadow-md hover:bg-gray-100 w-[180px] flex justify-between items-center"
+                className="bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 w-[180px] flex justify-between items-center"
                 onClick={() => setIsTemplateDropdownOpen(!isTemplateDropdownOpen)}
               >
                 <span>{templates[activeTemplate]?.name || 'Select Template'}</span>
@@ -241,11 +241,11 @@ export default function ResumeEditor({ slug, initialTemplate = 'base' }: ResumeE
               </Button>
               
               {isTemplateDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-full bg-white border rounded-md shadow-lg z-50">
+                <div className="absolute top-full left-0 mt-1 w-full bg-white dark:bg-gray-800 border rounded-md shadow-lg z-50">
                   {Object.values(templates).map((template) => (
                     <div 
                       key={template.id} 
-                      className="px-3 py-2 cursor-pointer hover:bg-gray-100 text-sm"
+                      className="px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 text-sm"
                       onClick={() => {
                         setActiveTemplate(template.id);
                         setIsTemplateDropdownOpen(false);
@@ -259,14 +259,14 @@ export default function ResumeEditor({ slug, initialTemplate = 'base' }: ResumeE
             </div>
 
             {/* Existing buttons */}
-            <Button
+            {/* <Button
               variant="outline"
               size="sm"
               className="bg-white shadow-md hover:bg-gray-100"
               onClick={handleDownload}
             >
               <Download className="h-4 w-4" />
-            </Button>
+            </Button> */}
             {/* <Button
               variant="outline"
               size="sm"
@@ -284,7 +284,7 @@ export default function ResumeEditor({ slug, initialTemplate = 'base' }: ResumeE
             <Button
               variant="outline"
               size="sm"
-              className="bg-white shadow-md hover:bg-gray-100"
+              className="bg-white dark:bg-gray-800 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setIsShareDialogOpen(true)}
             >
               <Share2 className="h-4 w-4 mr-2" />

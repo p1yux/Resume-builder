@@ -61,13 +61,13 @@ const PDFErrorBoundary: React.FC<{children: React.ReactNode}> = ({ children }) =
   
   if (hasError) {
     return (
-      <div className="text-center p-4 bg-red-50 rounded border border-red-200">
-        <p className="text-red-600 font-medium">There was an error loading the PDF.</p>
-        <p className="text-sm text-gray-600 mt-2">The PDF viewer encountered a compatibility issue with your browser.</p>
+      <div className="text-center p-4 bg-red-50 dark:bg-red-950 rounded border border-red-200 dark:border-red-800">
+        <p className="text-red-600 dark:text-red-400 font-medium">There was an error loading the PDF.</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">The PDF viewer encountered a compatibility issue with your browser.</p>
         <Button 
           variant="outline" 
           size="sm" 
-          className="mt-3"
+          className="mt-3 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700"
           onClick={() => window.open(location.href, '_blank')}
         >
           <Download className="h-4 w-4 mr-2" /> Download instead
@@ -424,6 +424,23 @@ export default function BaseTemplate({
     setEditingItem(null)
   }
 
+  // Loading overlay component
+  const LoadingOverlay = () => {
+    if (!isLoadingNotes) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-white/75 dark:bg-black/75 flex items-center justify-center z-50">
+        <div className="flex flex-col items-center gap-3 p-5 rounded-lg bg-white dark:bg-gray-900 shadow-lg border border-blue-100 dark:border-blue-900">
+          <div className="relative">
+            <Loader2 className="h-10 w-10 animate-spin text-blue-500 dark:text-blue-400" />
+            <div className="absolute inset-0 h-10 w-10 animate-ping rounded-full bg-blue-400 dark:bg-blue-500 opacity-20"></div>
+          </div>
+          <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Loading notes...</span>
+        </div>
+      </div>
+    );
+  };
+
   const SectionHeader = ({ title, section }: { title: string, section: string }) => {
     // Use the mapped section name for edit mode
     const internalSection = SECTION_MAP[title] || section
@@ -446,18 +463,18 @@ export default function BaseTemplate({
       <CardHeader
         className={cn(
           "flex flex-row items-center justify-between",
-          isEditModeActive && "bg-blue-50 border-b border-blue-100"
+          isEditModeActive && "bg-blue-50 dark:bg-blue-950 border-b border-blue-100 dark:border-blue-800"
         )}
       >
         <div className="flex items-center">
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="text-gray-900 dark:text-white">{title}</CardTitle>
           {isEditable && (
             <Button 
               variant={isEditModeActive ? "default" : "ghost"}
               size="sm" 
               className={cn(
                 "ml-2",
-                isEditModeActive && "bg-blue-500 hover:bg-blue-600"
+                isEditModeActive && "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
               )}
               onClick={(e: React.MouseEvent) => {
                 e.stopPropagation()
@@ -478,12 +495,12 @@ export default function BaseTemplate({
         <Button 
           variant="ghost" 
           size="sm" 
-          className="p-0 hover:bg-transparent"
+          className="p-0 hover:bg-transparent dark:hover:bg-transparent"
           onClick={() => toggleSection(uiSection)}
         >
           <ChevronDown
             className={cn(
-              "h-4 w-4 transition-transform duration-200",
+              "h-4 w-4 transition-transform duration-200 text-gray-600 dark:text-gray-400",
               openSections[uiSection] && "transform rotate-180"
             )}
           />
@@ -501,7 +518,7 @@ export default function BaseTemplate({
       
       links.push(
         <a key="linkedin" href={resumeData.personal_info.linkedin} target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-1 text-gray-700 hover:underline"
+          className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:underline"
           data-section={SECTIONS.PERSONAL_INFO}
           data-field="linkedin">
           <Linkedin className="h-4 w-4" />
@@ -526,7 +543,7 @@ export default function BaseTemplate({
       
       links.push(
         <a key="github" href={resumeData.personal_info.github} target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-1 text-gray-700 hover:underline"
+          className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:underline"
           data-section={SECTIONS.PERSONAL_INFO}
           data-field="github">
           <Github className="h-4 w-4" />
@@ -551,7 +568,7 @@ export default function BaseTemplate({
       
       links.push(
         <a key="website" href={resumeData.personal_info.website} target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-1 text-purple-500 hover:underline"
+          className="flex items-center gap-1 text-purple-500 dark:text-purple-400 hover:underline"
           data-section={SECTIONS.PERSONAL_INFO}
           data-field="website">
           <Globe className="h-4 w-4" />
@@ -799,7 +816,7 @@ export default function BaseTemplate({
       return createPortal(
         <div 
           ref={tooltipRef}
-          className="fixed bg-white p-2 rounded shadow-lg border w-[320px] break-words"
+          className="fixed bg-white dark:bg-gray-800 p-2 rounded shadow-lg border border-gray-200 dark:border-gray-600 w-[320px] break-words"
           style={{
             zIndex: 2147483647,
             top: `${tooltipPosition.top - 8}px`,
@@ -812,7 +829,7 @@ export default function BaseTemplate({
         >
           {/* Add a tooltip arrow */}
           <div 
-            className="absolute w-3 h-3 bg-white transform rotate-45"
+            className="absolute w-3 h-3 bg-white dark:bg-gray-800 transform rotate-45"
             style={{
               bottom: '-6px',
               left: '50%',
@@ -824,28 +841,28 @@ export default function BaseTemplate({
           
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-start gap-2">
-              <p className="text-sm flex-1">{note.note}</p>
+              <p className="text-sm text-gray-900 dark:text-gray-100 flex-1">{note.note}</p>
               {!isShared && (
                 <div className="flex gap-1">
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="h-6 w-6 p-0 hover:bg-red-100 relative group"
+                    className="h-6 w-6 p-0 hover:bg-red-100 dark:hover:bg-red-900 relative group"
                     onClick={handleDelete}
                   >
-                    <X className="h-3 w-3 text-red-600" />
-                    <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <X className="h-3 w-3 text-red-600 dark:text-red-400" />
+                    <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                       Delete
                     </span>
                   </Button>
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="h-6 w-6 p-0 hover:bg-blue-100 relative group"
+                    className="h-6 w-6 p-0 hover:bg-blue-100 dark:hover:bg-blue-900 relative group"
                     onClick={handleEdit}
                   >
-                    <Edit className="h-3 w-3 text-blue-600" />
-                    <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    <Edit className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                    <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                       Edit
                     </span>
                   </Button>
@@ -854,9 +871,9 @@ export default function BaseTemplate({
             </div>
             
             {note.note_file && (
-              <div className="border-t pt-2">
+              <div className="border-t border-gray-200 dark:border-gray-600 pt-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                     {isImage ? (
                       <ImageIcon className="h-4 w-4" />
                     ) : isPDF ? (
@@ -871,7 +888,7 @@ export default function BaseTemplate({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 w-6 p-0 hover:bg-blue-100 relative group"
+                        className="h-6 w-6 p-0 hover:bg-blue-100 dark:hover:bg-blue-900 relative group"
                         onClick={(e) => {
                           e.stopPropagation();
                           e.preventDefault();
@@ -881,8 +898,8 @@ export default function BaseTemplate({
                           setShowTooltip(false);
                         }}
                       >
-                        <Maximize2 className="h-3 w-3 text-blue-600" />
-                        <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        <Maximize2 className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                        <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                           Preview
                         </span>
                       </Button>
@@ -890,11 +907,11 @@ export default function BaseTemplate({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 hover:bg-gray-100 relative group"
+                      className="h-6 w-6 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 relative group"
                       onClick={handleDownload}
                     >
-                      <Download className="h-3 w-3" />
-                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      <Download className="h-3 w-3 text-gray-600 dark:text-gray-400" />
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         Download
                       </span>
                     </Button>
@@ -925,7 +942,7 @@ export default function BaseTemplate({
     return (
       <span 
         ref={highlightRef}
-        className="note-highlight bg-yellow-200 relative" 
+        className="note-highlight bg-yellow-200 dark:bg-yellow-600 relative" 
         data-note-id={identifier}
         onMouseEnter={handleShowTooltip}
         onMouseLeave={handleHideTooltip}
@@ -934,7 +951,7 @@ export default function BaseTemplate({
         {renderTooltip()}
         {isPreviewOpen && note.note_file && createPortal(
           <div 
-            className="fixed inset-0 bg-black/50 flex items-center justify-center"
+            className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center"
             style={{ 
               zIndex: 2147483646,
               position: 'fixed',
@@ -957,7 +974,7 @@ export default function BaseTemplate({
           >
             <div 
               className={cn(
-                "bg-white rounded-lg p-4 relative",
+                "bg-white dark:bg-gray-800 rounded-lg p-4 relative border border-gray-200 dark:border-gray-600",
                 isFullscreen ? "w-[95vw] h-[95vh]" : "max-w-[90vw] max-h-[90vh]"
               )}
               onClick={(e) => e.stopPropagation()}
@@ -966,26 +983,26 @@ export default function BaseTemplate({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 p-0"
+                  className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => setIsFullscreen(prev => !prev)}
                 >
                   {isFullscreen ? (
-                    <Minimize2 className="h-4 w-4" />
+                    <Minimize2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                   ) : (
-                    <Maximize2 className="h-4 w-4" />
+                    <Maximize2 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                   )}
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 w-8 p-0"
+                  className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => {
                     console.log('Close preview button clicked');
                     setIsPreviewOpen(false);
                     setIsFullscreen(false);
                   }}
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                 </Button>
               </div>
               
@@ -1004,15 +1021,16 @@ export default function BaseTemplate({
                 />
               ) : isPDF && (
                 <div className="flex flex-col items-center gap-4">
-                  <div className="w-full max-w-full bg-white rounded-lg shadow-lg overflow-hidden">
-                    <div className="p-4 bg-gray-100 border-b flex justify-between items-center">
-                      <p className="text-sm font-medium">PDF Preview</p>
+                  <div className="w-full max-w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                    <div className="p-4 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 flex justify-between items-center">
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">PDF Preview</p>
                       <div className="flex gap-2">
                         {numPages && numPages > 1 && (
                           <>
                             <Button
                               variant="outline"
                               size="sm"
+                              className="border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                               onClick={handlePrevPage}
                               disabled={pageNumber <= 1}
                             >
@@ -1150,17 +1168,19 @@ export default function BaseTemplate({
             <Textarea 
               value={inputValue} 
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInputValue(e.target.value)}
-              className="min-h-[100px]"
+              className="min-h-[100px] bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
             />
           ) : (
             <Input 
               value={inputValue} 
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
             />
           )}
           <Button 
             variant="ghost" 
             size="icon" 
+            className="hover:bg-green-50 dark:hover:bg-green-950"
             onClick={() => updateResumeData(draft => {
               if (section === SECTIONS.PERSONAL_INFO) {
                 (draft.personal_info as unknown as Record<string, string>)[field] = inputValue;
@@ -1184,14 +1204,15 @@ export default function BaseTemplate({
               }
             })}
           >
-            <Check className="h-4 w-4" />
+            <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
           </Button>
           <Button 
             variant="ghost" 
             size="icon" 
+            className="hover:bg-red-50 dark:hover:bg-red-950"
             onClick={cancelEditing}
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4 text-red-600 dark:text-red-400" />
           </Button>
         </div>
       )
@@ -1201,8 +1222,8 @@ export default function BaseTemplate({
       <span 
         className={cn(
           "cursor-pointer px-1 rounded inline",
-          editMode[section] && "hover:bg-blue-100 border-b border-dashed border-blue-300",
-          !editMode[section] && "hover:bg-gray-100"
+          editMode[section] && "hover:bg-blue-100 dark:hover:bg-blue-900 border-b border-dashed border-blue-300 dark:border-blue-600",
+          !editMode[section] && "hover:bg-gray-100 dark:hover:bg-gray-800"
         )}
         onClick={() => startEditing(section, index, field)}
         data-section={section}
@@ -1296,24 +1317,26 @@ export default function BaseTemplate({
           <Textarea 
             value={inputValue} 
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInputValue(e.target.value)}
-            className="min-h-[60px]"
+            className="min-h-[60px] bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
           />
           <div className="flex flex-col gap-1">
             <Button 
               variant="ghost" 
               size="icon" 
+              className="hover:bg-green-50 dark:hover:bg-green-950"
               onClick={() => updateResumeData(draft => {
                 draft.work_experience[itemIndex].key_responsbilities[respIndex] = inputValue
               })}
             >
-              <Check className="h-4 w-4" />
+              <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
             </Button>
             <Button 
               variant="ghost" 
               size="icon" 
+              className="hover:bg-red-50 dark:hover:bg-red-950"
               onClick={cancelEditing}
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4 text-red-600 dark:text-red-400" />
             </Button>
           </div>
         </div>
@@ -1324,8 +1347,8 @@ export default function BaseTemplate({
       <span 
         className={cn(
           "cursor-pointer px-1 rounded",
-          editMode[section] && "hover:bg-blue-100 border-b border-dashed border-blue-300",
-          !editMode[section] && "hover:bg-gray-100"
+          editMode[section] && "hover:bg-blue-100 dark:hover:bg-blue-900 border-b border-dashed border-blue-300 dark:border-blue-600",
+          !editMode[section] && "hover:bg-gray-100 dark:hover:bg-gray-800"
         )}
         onClick={() => startEditing(section, itemIndex, `resp_${respIndex}`)}
       >
@@ -1510,7 +1533,7 @@ export default function BaseTemplate({
           }}
           onKeyDown={handleKeyDown}
           placeholder="Add a note..."
-          className="min-h-[100px]"
+          className="min-h-[100px] bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
         />
         
         {/* File Upload Section */}
@@ -1528,26 +1551,27 @@ export default function BaseTemplate({
               type="button"
               variant="outline"
               size="sm"
+              className="border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700"
               onClick={() => fileInputRef.current?.click()}
             >
               Attach File
             </Button>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 dark:text-gray-400">
               (Images or PDF, max 5MB)
             </span>
           </div>
           
           {selectedFile && (
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm bg-gray-50 p-2 rounded border">
+              <div className="flex items-center gap-2 text-sm bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-600">
                 <div className="flex-1 flex items-center gap-2">
                   {selectedFile.type.startsWith('image/') ? (
-                    <ImageIcon className="h-4 w-4 text-blue-500" />
+                    <ImageIcon className="h-4 w-4 text-blue-500 dark:text-blue-400" />
                   ) : (
-                    <FileIcon className="h-4 w-4 text-red-500" />
+                    <FileIcon className="h-4 w-4 text-red-500 dark:text-red-400" />
                   )}
-                  <span className="truncate max-w-[250px]">{selectedFile.name}</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="truncate max-w-[250px] text-gray-900 dark:text-gray-100">{selectedFile.name}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
                     ({Math.round(selectedFile.size / 1024)} KB)
                   </span>
                 </div>
@@ -1556,15 +1580,15 @@ export default function BaseTemplate({
                   variant="ghost"
                   size="sm"
                   onClick={handleRemoveFile}
-                  className="h-6 w-6 p-0"
+                  className="h-6 w-6 p-0 hover:bg-red-100 dark:hover:bg-red-900"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-red-600 dark:text-red-400" />
                 </Button>
               </div>
               
               {/* Image Preview */}
               {filePreview && (
-                <div className="mt-1 max-h-[150px] overflow-hidden rounded border">
+                <div className="mt-1 max-h-[150px] overflow-hidden rounded border border-gray-200 dark:border-gray-600">
                   <img 
                     src={filePreview} 
                     alt="File preview" 
@@ -1582,7 +1606,7 @@ export default function BaseTemplate({
         </div>
 
         {error && (
-          <p className="text-sm text-red-500">{error}</p>
+          <p className="text-sm text-red-500 dark:text-red-400">{error}</p>
         )}
         <div className="flex justify-end gap-2">
           <Button 
@@ -1590,6 +1614,7 @@ export default function BaseTemplate({
             size="sm" 
             onClick={onCancel} 
             disabled={isSubmitting}
+            className="border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700"
           >
             Cancel
           </Button>
@@ -1597,6 +1622,7 @@ export default function BaseTemplate({
             size="sm" 
             onClick={handleSave} 
             disabled={isSubmitting || value.trim().length < MIN_NOTE_LENGTH}
+            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
           >
             {isSubmitting ? 'Saving...' : editingNote ? 'Update' : 'Save'}
           </Button>
@@ -1619,7 +1645,7 @@ export default function BaseTemplate({
 
     return createPortal(
       <div 
-        className="fixed inset-0 bg-black/50 flex items-center justify-center"
+        className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center"
         style={{ zIndex: 2147483645 }}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -1631,7 +1657,7 @@ export default function BaseTemplate({
       >
         <div 
           ref={popoverRef}
-          className="bg-white rounded-lg shadow-lg p-4 w-[400px]"
+          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4 w-[400px]"
           onClick={(e) => e.stopPropagation()}
         >
           <NoteInput 
@@ -1678,8 +1704,8 @@ export default function BaseTemplate({
             <div 
               key={index} 
               className={cn(
-                "rounded-full bg-gray-100 px-3 py-1 text-sm flex items-center gap-2",
-                editMode[SECTIONS.SKILLS] && isEditable && "border border-dashed border-gray-300"
+                "rounded-full bg-gray-100 dark:bg-gray-700 px-3 py-1 text-sm text-gray-800 dark:text-gray-200 flex items-center gap-2",
+                editMode[SECTIONS.SKILLS] && isEditable && "border border-dashed border-gray-300 dark:border-gray-600"
               )}
               data-section="skills"
             >
@@ -1696,7 +1722,7 @@ export default function BaseTemplate({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-4 w-4 p-0 ml-1 text-red-500 hover:bg-red-50"
+                  className="h-4 w-4 p-0 ml-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400"
                   onClick={() => {
                     console.log('Deleting skill at index:', index);
                     // Update local state immediately for better UX
@@ -1716,7 +1742,7 @@ export default function BaseTemplate({
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full bg-gray-50 border-dashed border-gray-300 hover:bg-gray-100"
+            className="rounded-full bg-gray-50 dark:bg-gray-800 border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => {
               console.log('Adding new skill');
               updateResumeData(draft => {
@@ -2219,25 +2245,8 @@ export default function BaseTemplate({
     });
   };
 
-  // Loading overlay component
-  const LoadingOverlay = () => {
-    if (!isLoadingNotes) return null;
-    
-    return (
-      <div className="fixed inset-0 bg-white/75 flex items-center justify-center z-50">
-        <div className="flex flex-col items-center gap-3 p-5 rounded-lg bg-white shadow-lg border border-blue-100">
-          <div className="relative">
-            <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
-            <div className="absolute inset-0 h-10 w-10 animate-ping rounded-full bg-blue-400 opacity-20"></div>
-          </div>
-          <span className="text-sm font-medium text-gray-800">Loading notes...</span>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div className="min-h-screen bg-white p-8 max-w-4xl mx-auto relative">
+    <div className="min-h-screen bg-white dark:bg-background p-8 max-w-4xl mx-auto relative">
       {/* Loading overlay */}
       <LoadingOverlay />
       
@@ -2246,18 +2255,18 @@ export default function BaseTemplate({
         {/* Personal Info - Not Collapsible */}
         <Card 
           className={cn(
-            "mb-8 section-card", 
-            editMode[SECTIONS.PERSONAL_INFO] && "border-2 border-blue-200 bg-blue-50"
+            "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
+            editMode[SECTIONS.PERSONAL_INFO] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
           )} 
           data-section="personal_info"
         >
           <CardHeader 
             className={cn(
-              editMode[SECTIONS.PERSONAL_INFO] && "border-b border-blue-100"
+              editMode[SECTIONS.PERSONAL_INFO] && "border-b border-blue-100 dark:border-blue-800"
             )}
           >
             <div className="flex items-center justify-between">
-              <CardTitle>
+              <CardTitle className="text-gray-900 dark:text-white">
                 <EditableText 
                   value={resumeData.personal_info.name || 'Name not available'} 
                   section={SECTIONS.PERSONAL_INFO} 
@@ -2270,7 +2279,7 @@ export default function BaseTemplate({
                   variant={editMode[SECTIONS.PERSONAL_INFO] ? "default" : "ghost"}
                   size="sm" 
                   className={cn(
-                    editMode[SECTIONS.PERSONAL_INFO] && "bg-blue-500 hover:bg-blue-600"
+                    editMode[SECTIONS.PERSONAL_INFO] && "bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
                   )}
                   onClick={() => toggleEditMode(SECTIONS.PERSONAL_INFO)}
                 >
@@ -2285,7 +2294,7 @@ export default function BaseTemplate({
                 </Button>
               )}
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-2">
                 {resumeData.personal_info.email !== '-' && (
                   <span className="inline-block">
@@ -2312,7 +2321,7 @@ export default function BaseTemplate({
                 )}
               </div>
               {resumeData.personal_info.gender !== '-' && (
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   Gender: {' '}
                   <span className="inline-block">
                     <EditableText 
@@ -2363,9 +2372,9 @@ export default function BaseTemplate({
         {/* Work Experience */}
         <Card 
           className={cn(
-            "mb-8 section-card", 
+            "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
             !openSections[UI_SECTIONS.EXPERIENCE] && "!gap-0",
-            editMode[SECTIONS.WORK_EXPERIENCE] && "border-2 border-blue-200 bg-blue-50"
+            editMode[SECTIONS.WORK_EXPERIENCE] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
           )} 
           data-section="work_experience"
         >
@@ -2383,7 +2392,7 @@ export default function BaseTemplate({
                       key={index} 
                       className={cn(
                         "mb-4 relative",
-                        editMode[SECTIONS.WORK_EXPERIENCE] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                        editMode[SECTIONS.WORK_EXPERIENCE] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                       )}
                       data-section={SECTIONS.WORK_EXPERIENCE}
                     >
@@ -2391,13 +2400,13 @@ export default function BaseTemplate({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400 dark:hover:text-red-300"
                           onClick={() => handleRemoveWorkExperience(index)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
-                      <h3 className="font-semibold" data-field="company_name">
+                      <h3 className="font-semibold text-gray-900 dark:text-white" data-field="company_name">
                         <EditableText 
                           value={exp.company_name} 
                           section={SECTIONS.WORK_EXPERIENCE} 
@@ -2405,7 +2414,7 @@ export default function BaseTemplate({
                           field="company_name" 
                         />
                       </h3>
-                      <div className="text-sm text-gray-500 flex items-center gap-1">
+                      <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
                         <span className="inline-block" data-field="job_title">
                           <EditableText 
                             value={exp.job_title} 
@@ -2427,7 +2436,7 @@ export default function BaseTemplate({
                       {exp.key_responsbilities.length > 0 && (
                         <ul className="mt-2 list-disc pl-5">
                           {exp.key_responsbilities.map((resp, i) => (
-                            <li key={i} className="text-sm">
+                            <li key={i} className="text-sm text-gray-700 dark:text-gray-300">
                               <EditableResponsibility 
                                 value={resp} 
                                 section={SECTIONS.WORK_EXPERIENCE} 
@@ -2439,7 +2448,7 @@ export default function BaseTemplate({
                         </ul>
                       )}
                       {index < resumeData.work_experience.filter(exp => exp.company_name !== '').length - 1 && (
-                        <Separator className="my-4" />
+                        <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />
                       )}
                     </div>
                   ))}
@@ -2450,7 +2459,7 @@ export default function BaseTemplate({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-dashed"
+                        className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                         onClick={() => setShowWorkExperienceForm(true)}
                       >
                         <Plus className="h-4 w-4 mr-2" />
@@ -2461,12 +2470,12 @@ export default function BaseTemplate({
                   
                   {resumeData.work_experience.filter(exp => exp.company_name !== '').length === 0 && (
                     <div className="text-center py-8">
-                      <div className="text-gray-400 mb-4">No work experience yet</div>
+                      <div className="text-gray-400 dark:text-gray-500 mb-4">No work experience yet</div>
                       {editMode[SECTIONS.WORK_EXPERIENCE] && isEditable && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-dashed"
+                          className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                           onClick={() => setShowWorkExperienceForm(true)}
                         >
                           <Plus className="h-4 w-4 mr-2" />
@@ -2484,9 +2493,9 @@ export default function BaseTemplate({
         {resumeData.skills?.length > 0 && (
           <Card 
             className={cn(
-              "mb-8 section-card", 
+              "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
               !openSections[UI_SECTIONS.SKILLS] && "!gap-0",
-              editMode[SECTIONS.SKILLS] && "border-2 border-blue-200 bg-blue-50"
+              editMode[SECTIONS.SKILLS] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
             )} 
             data-section="skills"
           >
@@ -2508,9 +2517,9 @@ export default function BaseTemplate({
         {resumeData.projects?.length > 0 && (
           <Card 
             className={cn(
-              "mb-8 section-card", 
+              "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
               !openSections[UI_SECTIONS.PROJECTS] && "!gap-0",
-              editMode[SECTIONS.PROJECTS] && "border-2 border-blue-200 bg-blue-50"
+              editMode[SECTIONS.PROJECTS] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
             )} 
             data-section="projects"
           >
@@ -2526,11 +2535,11 @@ export default function BaseTemplate({
                       key={index} 
                       className={cn(
                         "mb-4",
-                        editMode[SECTIONS.PROJECTS] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                        editMode[SECTIONS.PROJECTS] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                       )}
                       data-section={SECTIONS.PROJECTS}
                     >
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">
                         <span className="inline-block" data-field="title">
                           <EditableText 
                             value={project.title} 
@@ -2540,7 +2549,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </h3>
-                      <div className="text-sm">
+                      <div className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="inline-block" data-field="description">
                           <EditableText 
                             value={project.description} 
@@ -2557,8 +2566,8 @@ export default function BaseTemplate({
                             <div 
                               key={i} 
                               className={cn(
-                                "rounded-full bg-gray-100 px-2 py-0.5 text-xs",
-                                editMode[SECTIONS.PROJECTS] && isEditable && "border border-dashed border-gray-300"
+                                "rounded-full bg-gray-100 dark:bg-gray-700 px-2 py-0.5 text-xs text-gray-800 dark:text-gray-200",
+                                editMode[SECTIONS.PROJECTS] && isEditable && "border border-dashed border-gray-300 dark:border-gray-600"
                               )}
                             >
                               <span data-field={`skill_${i}`}>
@@ -2573,7 +2582,7 @@ export default function BaseTemplate({
                           ))}
                         </div>
                       )}
-                      {index < resumeData.projects.length - 1 && <Separator className="my-4" />}
+                      {index < resumeData.projects.length - 1 && <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />}
                     </div>
                   ))}
                 </CardContent>
@@ -2585,9 +2594,9 @@ export default function BaseTemplate({
         {/* Education */}
         <Card 
           className={cn(
-            "mb-8 section-card", 
+            "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
             !openSections[UI_SECTIONS.EDUCATION] && "!gap-0",
-            editMode[SECTIONS.EDUCATION] && "border-2 border-blue-200 bg-blue-50"
+            editMode[SECTIONS.EDUCATION] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
           )} 
           data-section="education"
         >
@@ -2603,7 +2612,7 @@ export default function BaseTemplate({
                     key={index} 
                     className={cn(
                       "mb-4 relative",
-                      editMode[SECTIONS.EDUCATION] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                      editMode[SECTIONS.EDUCATION] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                     )}
                     data-section="education"
                   >
@@ -2611,13 +2620,13 @@ export default function BaseTemplate({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                        className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400 dark:hover:text-red-300"
                         onClick={() => handleRemoveEducation(index)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     )}
-                    <h3 className="font-semibold">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
                       <span className="inline-block" data-field="title">
                         <EditableText 
                           value={education.title} 
@@ -2627,7 +2636,7 @@ export default function BaseTemplate({
                         />
                       </span>
                     </h3>
-                    <div className="text-sm">
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
                       <span className="inline-block" data-field="description">
                         <EditableText 
                           value={education.description} 
@@ -2638,7 +2647,7 @@ export default function BaseTemplate({
                         />
                       </span>
                     </div>
-                    {index < resumeData.education.length - 1 && <Separator className="my-4" />}
+                    {index < resumeData.education.length - 1 && <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />}
                   </div>
                 ))}
                 
@@ -2647,7 +2656,7 @@ export default function BaseTemplate({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-dashed"
+                      className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                       onClick={() => setShowEducationForm(true)}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -2659,11 +2668,11 @@ export default function BaseTemplate({
                 {resumeData.education.length === 0 && 
                  editMode[SECTIONS.EDUCATION] && isEditable && (
                   <div className="text-center py-8">
-                    <p className="text-sm text-gray-500 mb-4">No education added yet</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">No education added yet</p>
                     <Button
                       variant="outline"
                       onClick={() => setShowEducationForm(true)}
-                      className="border-dashed"
+                      className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Add Education
@@ -2679,9 +2688,9 @@ export default function BaseTemplate({
         {(resumeData.publications?.length > 0 || editMode[SECTIONS.PUBLICATIONS]) && (
           <Card 
             className={cn(
-              "mb-8 section-card", 
+              "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
               !openSections[UI_SECTIONS.PUBLICATIONS] && "!gap-0",
-              editMode[SECTIONS.PUBLICATIONS] && "border-2 border-blue-200 bg-blue-50"
+              editMode[SECTIONS.PUBLICATIONS] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
             )} 
             data-section="publications"
           >
@@ -2694,12 +2703,12 @@ export default function BaseTemplate({
                 <CardContent className="relative">
                   {resumeData.publications?.length === 0 && (
                     <div className="text-center py-8">
-                      <div className="text-gray-400 mb-4">No publications added yet</div>
+                      <div className="text-gray-400 dark:text-gray-500 mb-4">No publications added yet</div>
                       {editMode[SECTIONS.PUBLICATIONS] && isEditable && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-dashed"
+                          className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                           onClick={() => setShowPublicationForm(true)}
                         >
                           <Plus className="h-4 w-4 mr-2" />
@@ -2714,7 +2723,7 @@ export default function BaseTemplate({
                       key={index} 
                       className={cn(
                         "mb-4 relative",
-                        editMode[SECTIONS.PUBLICATIONS] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                        editMode[SECTIONS.PUBLICATIONS] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                       )}
                       data-section={SECTIONS.PUBLICATIONS}
                     >
@@ -2722,13 +2731,13 @@ export default function BaseTemplate({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400 dark:hover:text-red-300"
                           onClick={() => handleRemovePublication(index)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">
                         <span className="inline-block" data-field="title">
                           <EditableText 
                             value={publication.title} 
@@ -2738,7 +2747,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </h3>
-                      <p className="text-sm italic">
+                      <p className="text-sm italic text-gray-700 dark:text-gray-300">
                         <span className="inline-block" data-field="authors">
                           <EditableText 
                             value={publication.authors} 
@@ -2748,7 +2757,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="inline-block" data-field="journal">
                           <EditableText 
                             value={publication.journal} 
@@ -2777,7 +2786,7 @@ export default function BaseTemplate({
                             href={publication.url} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
+                            className="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
                           >
                             <span className="inline-block" data-field="url">
                               <EditableText 
@@ -2791,7 +2800,7 @@ export default function BaseTemplate({
                         </p>
                       )}
                       {publication.description && (
-                        <p className="text-sm mt-1">
+                        <p className="text-sm mt-1 text-gray-700 dark:text-gray-300">
                           <span className="inline-block" data-field="description">
                             <EditableText 
                               value={publication.description} 
@@ -2803,7 +2812,7 @@ export default function BaseTemplate({
                           </span>
                         </p>
                       )}
-                      {index < (resumeData.publications?.length || 0) - 1 && <Separator className="my-4" />}
+                      {index < (resumeData.publications?.length || 0) - 1 && <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />}
                     </div>
                   ))}
                   
@@ -2813,7 +2822,7 @@ export default function BaseTemplate({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-dashed"
+                        className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                         onClick={() => setShowPublicationForm(true)}
                       >
                         <Plus className="h-4 w-4 mr-2" />
@@ -2831,9 +2840,9 @@ export default function BaseTemplate({
         {(resumeData.patents!.length > 0 || editMode[SECTIONS.PATENTS]) && (
           <Card 
             className={cn(
-              "mb-8 section-card", 
+              "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
               !openSections[UI_SECTIONS.PATENTS] && "!gap-0",
-              editMode[SECTIONS.PATENTS] && "border-2 border-blue-200 bg-blue-50"
+              editMode[SECTIONS.PATENTS] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
             )} 
             data-section="patents"
           >
@@ -2846,12 +2855,12 @@ export default function BaseTemplate({
                 <CardContent className="relative">
                   {resumeData.patents?.length === 0 && (
                     <div className="text-center py-8">
-                      <div className="text-gray-400 mb-4">No patents added yet</div>
+                      <div className="text-gray-400 dark:text-gray-500 mb-4">No patents added yet</div>
                       {editMode[SECTIONS.PATENTS] && isEditable && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-dashed"
+                          className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                           onClick={() => setShowPatentForm(true)}
                         >
                           <Plus className="h-4 w-4 mr-2" />
@@ -2866,7 +2875,7 @@ export default function BaseTemplate({
                       key={index} 
                       className={cn(
                         "mb-4 relative",
-                        editMode[SECTIONS.PATENTS] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                        editMode[SECTIONS.PATENTS] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                       )}
                       data-section={SECTIONS.PATENTS}
                     >
@@ -2874,13 +2883,13 @@ export default function BaseTemplate({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400 dark:hover:text-red-300"
                           onClick={() => handleRemovePatent(index)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">
                         <span className="inline-block" data-field="title">
                           <EditableText 
                             value={patent.title} 
@@ -2890,7 +2899,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </h3>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Patent Number: </span>
                         <span className="inline-block" data-field="patent_number">
                           <EditableText 
@@ -2901,7 +2910,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Date: </span>
                         <span className="inline-block" data-field="date">
                           <EditableText 
@@ -2912,7 +2921,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Inventors: </span>
                         <span className="inline-block" data-field="inventors">
                           <EditableText 
@@ -2923,7 +2932,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Status: </span>
                         <span className="inline-block" data-field="status">
                           <EditableText 
@@ -2935,7 +2944,7 @@ export default function BaseTemplate({
                         </span>
                       </p>
                       {patent.description && (
-                        <p className="text-sm mt-1">
+                        <p className="text-sm mt-1 text-gray-700 dark:text-gray-300">
                           <span className="inline-block" data-field="description">
                             <EditableText 
                               value={patent.description} 
@@ -2947,7 +2956,7 @@ export default function BaseTemplate({
                           </span>
                         </p>
                       )}
-                      {index < (resumeData.patents?.length || 0) - 1 && <Separator className="my-4" />}
+                      {index < (resumeData.patents?.length || 0) - 1 && <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />}
                     </div>
                   ))}
                   
@@ -2957,7 +2966,7 @@ export default function BaseTemplate({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-dashed"
+                        className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                         onClick={() => setShowPatentForm(true)}
                       >
                         <Plus className="h-4 w-4 mr-2" />
@@ -2975,9 +2984,9 @@ export default function BaseTemplate({
         {(resumeData.references?.length > 0 || editMode[SECTIONS.REFERENCES]) && (
           <Card 
             className={cn(
-              "mb-8 section-card", 
+              "mb-8 section-card bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700", 
               !openSections[UI_SECTIONS.REFERENCES] && "!gap-0",
-              editMode[SECTIONS.REFERENCES] && "border-2 border-blue-200 bg-blue-50"
+              editMode[SECTIONS.REFERENCES] && "border-2 border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-blue-950"
             )} 
             data-section="references"
           >
@@ -2990,12 +2999,12 @@ export default function BaseTemplate({
                 <CardContent className="relative">
                   {resumeData.references?.length === 0 && (
                     <div className="text-center py-8">
-                      <div className="text-gray-400 mb-4">No references added yet</div>
+                      <div className="text-gray-400 dark:text-gray-500 mb-4">No references added yet</div>
                       {editMode[SECTIONS.REFERENCES] && isEditable && (
                         <Button
                           variant="outline"
                           size="sm"
-                          className="border-dashed"
+                          className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                           onClick={() => setShowReferenceForm(true)}
                         >
                           <Plus className="h-4 w-4 mr-2" />
@@ -3010,7 +3019,7 @@ export default function BaseTemplate({
                       key={index} 
                       className={cn(
                         "mb-4 relative",
-                        editMode[SECTIONS.REFERENCES] && isEditable && "border border-dashed border-gray-200 p-2 rounded"
+                        editMode[SECTIONS.REFERENCES] && isEditable && "border border-dashed border-gray-200 dark:border-gray-600 p-2 rounded"
                       )}
                       data-section={SECTIONS.REFERENCES}
                     >
@@ -3018,13 +3027,13 @@ export default function BaseTemplate({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="absolute top-2 right-2 h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950 dark:text-red-400 dark:hover:text-red-300"
                           onClick={() => handleRemoveReference(index)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">
                         <span className="inline-block" data-field="name">
                           <EditableText 
                             value={reference.name} 
@@ -3034,7 +3043,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </h3>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="inline-block" data-field="position">
                           <EditableText 
                             value={reference.position} 
@@ -3053,7 +3062,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Contact: </span>
                         <span className="inline-block" data-field="contact">
                           <EditableText 
@@ -3064,7 +3073,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      <p className="text-sm">
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
                         <span className="font-medium">Relation: </span>
                         <span className="inline-block" data-field="relation">
                           <EditableText 
@@ -3075,7 +3084,7 @@ export default function BaseTemplate({
                           />
                         </span>
                       </p>
-                      {index < (resumeData.references?.length || 0) - 1 && <Separator className="my-4" />}
+                      {index < (resumeData.references?.length || 0) - 1 && <Separator className="my-4 bg-gray-200 dark:bg-gray-700" />}
                     </div>
                   ))}
                   
@@ -3085,7 +3094,7 @@ export default function BaseTemplate({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-dashed"
+                        className="border-dashed border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
                         onClick={() => setShowReferenceForm(true)}
                       >
                         <Plus className="h-4 w-4 mr-2" />

@@ -180,7 +180,7 @@ export default function MinimalTemplate({
   
   // Section header without edit toggle
   const SectionHeader = ({ title }: { title: string }) => {
-    return <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-100 pb-2">{title}</h2>;
+    return <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200 border-b border-gray-100 dark:border-gray-700 pb-2">{title}</h2>;
   }
   
   // Loading overlay component
@@ -188,29 +188,29 @@ export default function MinimalTemplate({
     if (!isLoadingNotes) return null;
     
     return (
-      <div className="fixed inset-0 bg-white/75 flex items-center justify-center z-50">
-        <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-white shadow-lg">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-          <span className="text-sm font-medium">Loading notes...</span>
+      <div className="fixed inset-0 bg-white/75 dark:bg-gray-900/75 flex items-center justify-center z-50">
+        <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-500 dark:text-blue-400" />
+          <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Loading notes...</span>
         </div>
       </div>
     );
   }
   
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 text-gray-900 rounded-lg overflow-hidden shadow-lg max-w-5xl mx-auto relative">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg overflow-hidden shadow-lg max-w-5xl mx-auto relative">
       {/* Loading overlay */}
       <LoadingOverlay />
       
       {/* Left Sidebar */}
-      <aside className="w-full md:w-[300px] bg-[#1E2A3B] text-white p-6 md:p-8 flex flex-col items-center md:items-start">
+      <aside className="w-full md:w-[300px] bg-[#1E2A3B] dark:bg-gray-800 text-white p-6 md:p-8 flex flex-col items-center md:items-start">
         {/* Contact Section */}
         <div className="w-full mb-8">
           <h2 className="uppercase text-sm mb-4 text-center md:text-left font-semibold tracking-wider">Contact</h2>
           <div className="space-y-3 text-sm">
             {personal_info.email && personal_info.email !== '-' && (
-              <div className="flex items-center gap-3 transition-colors hover:text-blue-300">
-                <Mail className="w-4 h-4 text-blue-300" />
+              <div className="flex items-center gap-3 transition-colors hover:text-blue-300 dark:hover:text-blue-400">
+                <Mail className="w-4 h-4 text-blue-300 dark:text-blue-400" />
                 <SimpleText 
                   value={personal_info.email} 
                   section={SECTIONS.PERSONAL_INFO} 
@@ -219,8 +219,8 @@ export default function MinimalTemplate({
               </div>
             )}
             {personal_info.contact_no && personal_info.contact_no !== '-' && (
-              <div className="flex items-center gap-3 transition-colors hover:text-blue-300">
-                <Phone className="w-4 h-4 text-blue-300" />
+              <div className="flex items-center gap-3 transition-colors hover:text-blue-300 dark:hover:text-blue-400">
+                <Phone className="w-4 h-4 text-blue-300 dark:text-blue-400" />
                 <SimpleText 
                   value={personal_info.contact_no} 
                   section={SECTIONS.PERSONAL_INFO} 
@@ -230,24 +230,24 @@ export default function MinimalTemplate({
             )}
             {personal_info.github && personal_info.github !== '-' && (
               <div className="flex items-center gap-3">
-                <Github className="w-4 h-4 text-blue-300" />
-                <a href={personal_info.github} target="_blank" rel="noopener noreferrer">
+                <Github className="w-4 h-4 text-blue-300 dark:text-blue-400" />
+                <a href={personal_info.github} target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 dark:hover:text-blue-400">
                   GitHub
                 </a>
               </div>
             )}
             {personal_info.linkedin && personal_info.linkedin !== '-' && (
               <div className="flex items-center gap-3">
-                <Linkedin className="w-4 h-4 text-blue-300" />
-                <a href={personal_info.linkedin} target="_blank" rel="noopener noreferrer">
+                <Linkedin className="w-4 h-4 text-blue-300 dark:text-blue-400" />
+                <a href={personal_info.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 dark:hover:text-blue-400">
                   LinkedIn
                 </a>
               </div>
             )}
             {personal_info.website && personal_info.website !== '-' && (
               <div className="flex items-center gap-3">
-                <Globe className="w-4 h-4 text-blue-300" />
-                <a href={personal_info.website} target="_blank" rel="noopener noreferrer">
+                <Globe className="w-4 h-4 text-blue-300 dark:text-blue-400" />
+                <a href={personal_info.website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 dark:hover:text-blue-400">
                   Portfolio
                 </a>
               </div>
@@ -260,7 +260,7 @@ export default function MinimalTemplate({
           <h2 className="uppercase text-sm mb-4 text-center md:text-left font-semibold tracking-wider">Education</h2>
           <div className="space-y-5 text-sm">
             {education?.filter(edu => edu.title !== '-').map((edu, index) => (
-              <div key={index} className="border-l-2 border-blue-400 pl-3 transition-all hover:border-blue-300 hover:pl-4">
+              <div key={index} className="border-l-2 border-blue-400 dark:border-blue-500 pl-3 transition-all hover:border-blue-300 dark:hover:border-blue-400 hover:pl-4">
                 <div className="font-medium">
                   <SimpleText 
                     value={edu.title} 
@@ -268,7 +268,7 @@ export default function MinimalTemplate({
                     field="title" 
                   />
                 </div>
-                <div className="text-gray-400">
+                <div className="text-gray-400 dark:text-gray-300">
                   <SimpleText 
                     value={edu.description} 
                     section={SECTIONS.QUALIFICATIONS} 
@@ -282,10 +282,10 @@ export default function MinimalTemplate({
       </aside>
 
       {/* Main Content */}
-      <main className="w-full bg-white p-6 md:p-8">
+      <main className="w-full bg-white dark:bg-gray-900 p-6 md:p-8">
         {/* Personal Info/Header */}
         <div className="mb-10">
-          <h1 className="text-3xl font-bold mb-1 uppercase">
+          <h1 className="text-3xl font-bold mb-1 uppercase text-gray-900 dark:text-gray-100">
             <SimpleText 
               value={personal_info.name} 
               section={SECTIONS.PERSONAL_INFO} 
@@ -298,7 +298,7 @@ export default function MinimalTemplate({
         {personal_info.gender && personal_info.gender !== '-' && (
           <div className="mb-10">
             <SectionHeader title="About" />
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-300">
               <SimpleText 
                 value={personal_info.gender} 
                 section={SECTIONS.PERSONAL_INFO} 
@@ -315,20 +315,20 @@ export default function MinimalTemplate({
             <div className="space-y-5">
               {work_experience.filter(exp => exp.company_name !== '' && exp.company_name !== '-').map((exp, index) => (
                 <div key={index} className="space-y-1">
-                  <h3 className="font-medium">
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">
                     <SimpleText 
                       value={exp.company_name} 
                       section={SECTIONS.WORK_EXPERIENCE} 
                       field="company_name" 
                     />
                   </h3>
-                  <div className="flex flex-wrap items-center gap-x-2 text-sm text-gray-600">
+                  <div className="flex flex-wrap items-center gap-x-2 text-sm text-gray-600 dark:text-gray-400">
                     <SimpleText 
                       value={exp.job_title} 
                       section={SECTIONS.WORK_EXPERIENCE} 
                       field="job_title" 
                     />
-                    <span className="h-1 w-1 rounded-full bg-gray-600"></span>
+                    <span className="h-1 w-1 rounded-full bg-gray-600 dark:bg-gray-400"></span>
                     <SimpleText 
                       value={exp.duration} 
                       section={SECTIONS.WORK_EXPERIENCE} 
@@ -336,7 +336,7 @@ export default function MinimalTemplate({
                     />
                   </div>
                   {exp.key_responsbilities && exp.key_responsbilities.length > 0 && (
-                    <ul className="list-disc list-inside text-gray-700 ml-3 space-y-1">
+                    <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 ml-3 space-y-1">
                       {exp.key_responsbilities.map((resp, idx) => (
                         <li key={idx}>
                           <SimpleResponsibility 
@@ -361,7 +361,7 @@ export default function MinimalTemplate({
             <SectionHeader title="Skills" />
             <div className="flex flex-wrap gap-2">
               {skills.filter(skill => skill.name !== '' && skill.name !== '-').map((skill, index) => (
-                <div key={index} className="bg-gray-100 rounded-full px-3 py-1 text-sm">
+                <div key={index} className="bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1 text-sm text-gray-800 dark:text-gray-200">
                   <SimpleText 
                     value={skill.name} 
                     section={SECTIONS.SKILLS} 
@@ -380,14 +380,14 @@ export default function MinimalTemplate({
             <div className="space-y-5">
               {projects.filter(project => project.title !== '' && project.title !== '-').map((project, index) => (
                 <div key={index} className="space-y-1">
-                  <h3 className="font-medium">
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">
                     <SimpleText 
                       value={project.title} 
                       section={SECTIONS.PROJECTS} 
                       field="title" 
                     />
                   </h3>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-300">
                     <SimpleText 
                       value={project.description} 
                       section={SECTIONS.PROJECTS} 

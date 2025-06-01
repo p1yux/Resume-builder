@@ -708,10 +708,10 @@ export default function WorkExperiencePage() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-white dark:bg-black min-h-screen">
       <div className="flex flex-col gap-5 mb-6 top-10 z-10 w-full justify-between items-center ">
-        {/* <h1 className="text-2xl font-bold flex items-center gap-2 mb-2">
-          <Briefcase className="h-5 w-5 text-blue-600" />
+        {/* <h1 className="text-2xl font-bold flex items-center gap-2 mb-2 text-gray-900 dark:text-white">
+          <Briefcase className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Work Experience
         </h1> */}
         <SectionNav />
@@ -720,19 +720,19 @@ export default function WorkExperiencePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left panel - List of work experiences */}
         <div className="lg:col-span-1">
-          <Card>
-            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-md font-medium">All Experiences</CardTitle>
-              <Button variant="ghost" size="sm" className="h-8 px-2" onClick={handleAddClick}>
+          <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0 border-b border-gray-100 dark:border-gray-700">
+              <CardTitle className="text-md font-medium text-gray-900 dark:text-white">All Experiences</CardTitle>
+              <Button variant="ghost" size="sm" className="h-8 px-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" onClick={handleAddClick}>
                 <Plus className="h-4 w-4" /> Add New
               </Button>
             </CardHeader>
             <CardContent className="px-4 pb-4">
               <div className="relative mb-4">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                 <Input
                   placeholder="Search experiences..."
-                  className="pl-8"
+                  className="pl-8 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -742,32 +742,34 @@ export default function WorkExperiencePage() {
                 {resumesQuery.isLoading ? (
                   Array(5).fill(0).map((_, i) => (
                     <div key={i} className="mb-3">
-                      <Skeleton className="h-6 w-3/4 mb-1" />
-                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-6 w-3/4 mb-1 bg-gray-200 dark:bg-gray-700" />
+                      <Skeleton className="h-4 w-1/2 bg-gray-200 dark:bg-gray-700" />
                     </div>
                   ))
                 ) : (
                   filteredWorkExperiences.length === 0 ? (
-                    <div className="text-center py-6 text-muted-foreground">
+                    <div className="text-center py-6 text-gray-500 dark:text-gray-400">
                       No work experiences found
                     </div>
                   ) : (
                     filteredWorkExperiences.map((exp: WorkEXP & { resumeId: string, resumeTitle: string }, index: number) => (
                       <div key={`${exp.resumeId}-${index}`} className="mb-3">
                         <div 
-                          className={`p-3 rounded-md cursor-pointer hover:bg-slate-50 border-l-4 ${
-                            selectedItem === exp ? 'border-blue-500 bg-blue-50' : 'border-transparent'
+                          className={`p-3 rounded-md cursor-pointer transition-all duration-200 border-l-4 ${
+                            selectedItem === exp 
+                              ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-950/50' 
+                              : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:border-gray-200 dark:hover:border-gray-600'
                           }`}
                           onClick={() => handleSelectItem(exp)}
                         >
-                          <div className="font-medium">{exp.job_title}</div>
-                          <div className="text-sm text-muted-foreground">{exp.company_name}</div>
-                          <div className="text-xs text-muted-foreground mt-1">{exp.duration}</div>
-                          <Badge variant="outline" className="mt-2 text-xs">
+                          <div className="font-medium text-gray-900 dark:text-white">{exp.job_title}</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">{exp.company_name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{exp.duration}</div>
+                          <Badge variant="outline" className="mt-2 text-xs border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
                             {exp.resumeTitle}
                           </Badge>
                         </div>
-                        {index < filteredWorkExperiences.length - 1 && <Separator className="my-2" />}
+                        {index < filteredWorkExperiences.length - 1 && <Separator className="my-2 bg-gray-200 dark:bg-gray-700" />}
                       </div>
                     ))
                   )
@@ -779,20 +781,20 @@ export default function WorkExperiencePage() {
         
         {/* Right panel - Selected experience details */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-md font-medium">
+          <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+            <CardHeader className="px-4 py-3 flex flex-row items-center justify-between space-y-0 border-b border-gray-100 dark:border-gray-700">
+              <CardTitle className="text-md font-medium text-gray-900 dark:text-white">
                 {selectedItem ? 'Experience Details' : 'Select an experience'}
               </CardTitle>
               {selectedItem && (
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="h-8" onClick={handleEditClick}>
+                  <Button variant="outline" size="sm" className="h-8 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" onClick={handleEditClick}>
                     <Edit className="h-3.5 w-3.5 mr-1" /> Edit
                   </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="h-8 text-red-500 hover:text-red-700 hover:bg-red-50"
+                    className="h-8 text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/50 border-red-300 dark:border-red-600"
                     onClick={() => setIsDeleteDialogOpen(true)}
                   >
                     <Trash2 className="h-3.5 w-3.5 mr-1" /> Delete
@@ -802,30 +804,30 @@ export default function WorkExperiencePage() {
             </CardHeader>
             <CardContent className="px-4 pb-4">
               {!selectedItem ? (
-                <div className="flex flex-col items-center justify-center h-[calc(100vh-270px)] text-center text-muted-foreground">
-                  <Briefcase className="h-12 w-12 mb-4 text-slate-300" />
+                <div className="flex flex-col items-center justify-center h-[calc(100vh-270px)] text-center text-gray-500 dark:text-gray-400">
+                  <Briefcase className="h-12 w-12 mb-4 text-gray-300 dark:text-gray-600" />
                   <p>Select a work experience item to view details</p>
                 </div>
               ) : (
                 <div onMouseUp={handleTextSelection} ref={detailsRef} className="relative">
-                  <Tabs defaultValue="details">
-                    <TabsList className="mb-4">
-                      <TabsTrigger value="details">Details</TabsTrigger>
-                      <TabsTrigger value="notes">Notes</TabsTrigger>
+                  <Tabs defaultValue="details" className="w-full">
+                    <TabsList className="mb-4 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-600">
+                      <TabsTrigger value="details" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-gray-900 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400">Details</TabsTrigger>
+                      <TabsTrigger value="notes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-gray-900 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400">Notes</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="details" className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold">{selectedItem.job_title}</h3>
-                        <p className="text-muted-foreground">{selectedItem.company_name}</p>
-                        <p className="text-sm text-muted-foreground">{selectedItem.duration}</p>
-                        <Badge className="mt-2" variant="outline">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedItem.job_title}</h3>
+                        <p className="text-gray-600 dark:text-gray-400">{selectedItem.company_name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{selectedItem.duration}</p>
+                        <Badge className="mt-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800" variant="outline">
                           From: {selectedItem.resumeTitle}
                         </Badge>
                       </div>
                       
                       <div>
-                        <h4 className="font-medium mb-2">Key Responsibilities</h4>
+                        <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Key Responsibilities</h4>
                         <ul className="list-disc list-inside space-y-1">
                           {selectedItem.key_responsbilities.map((resp, idx) => {
                             // Find notes related to this responsibility
@@ -836,7 +838,7 @@ export default function WorkExperiencePage() {
                             if (respNotes.length === 0) {
                               // No notes, just render the text
                               return (
-                                <li key={idx} className="text-sm">
+                                <li key={idx} className="text-sm text-gray-700 dark:text-gray-300">
                                   {resp}
                                 </li>
                               );
@@ -847,25 +849,25 @@ export default function WorkExperiencePage() {
                               
                               if (parts.length === 1) {
                                 return (
-                                  <li key={idx} className="text-sm">
+                                  <li key={idx} className="text-sm text-gray-700 dark:text-gray-300">
                                     {resp}
                                   </li>
                                 );
                               }
                               
                               return (
-                                <li key={idx} className="text-sm">
+                                <li key={idx} className="text-sm text-gray-700 dark:text-gray-300">
                                   {parts[0]}
                                   <span 
-                                    className="font-bold underline text-gray-900 cursor-help relative"
+                                    className="font-bold underline text-gray-900 dark:text-white cursor-help relative"
                                     onMouseEnter={() => setHoveredNote(note)}
                                     onMouseLeave={() => setHoveredNote(null)}
                                   >
                                     {note.selected_text}
                                     {hoveredNote === note && (
-                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-white shadow-lg rounded-md border z-50">
-                                        <div className="text-xs text-gray-500 mb-1">Note:</div>
-                                        <div className="text-sm font-normal">{note.note}</div>
+                                      <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-white dark:bg-gray-900 shadow-lg rounded-md border border-gray-200 dark:border-gray-600 z-50">
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Note:</div>
+                                        <div className="text-sm font-normal text-gray-900 dark:text-white">{note.note}</div>
                                       </div>
                                     )}
                                   </span>
@@ -880,29 +882,29 @@ export default function WorkExperiencePage() {
                       {/* Selection popover for adding notes */}
                       {isNotePopoverOpen && highlightPosition && (
                         <div 
-                          className="absolute bg-white shadow-lg rounded-md border p-3 z-10 w-80"
+                          className="absolute bg-white dark:bg-gray-900 shadow-lg rounded-md border border-gray-200 dark:border-gray-600 p-3 z-10 w-80"
                           style={{ 
                             top: `${highlightPosition.y - 10}px`, 
                             left: `${highlightPosition.x - 40}px`,
                             transform: 'translate(-50%, -100%)'
                           }}
                         >
-                          <div className="mb-2 font-medium">Add Note</div>
-                          <div className="mb-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm">
+                          <div className="mb-2 font-medium text-gray-900 dark:text-white">Add Note</div>
+                          <div className="mb-2 p-2 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded text-sm text-gray-900 dark:text-white">
                             {highlightText}
                           </div>
                           <Textarea 
                             placeholder="Enter your note" 
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
-                            className="mb-2"
+                            className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
                           />
                           <div className="flex justify-between">
                             <div className="flex space-x-1">
-                              <Button size="sm" variant="outline" className="px-2 py-1 h-7">
+                              <Button size="sm" variant="outline" className="px-2 py-1 h-7 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <Bold className="h-3.5 w-3.5" />
                               </Button>
-                              <Button size="sm" variant="outline" className="px-2 py-1 h-7">
+                              <Button size="sm" variant="outline" className="px-2 py-1 h-7 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <Underline className="h-3.5 w-3.5" />
                               </Button>
                             </div>
@@ -923,7 +925,7 @@ export default function WorkExperiencePage() {
                       <div className="space-y-4">
                         <div className="p-4 border rounded-md">
                           <h4 className="font-medium mb-2">How to Add Notes</h4>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
                             Select text in the details tab to create a note. Notes will highlight text and make it actionable.
                           </p>
                         </div>
@@ -936,7 +938,7 @@ export default function WorkExperiencePage() {
                             <Skeleton className="h-20 w-full" />
                           </div>
                         ) : notes.length === 0 ? (
-                          <div className="text-muted-foreground text-sm text-center py-4">
+                          <div className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
                             No notes added yet
                           </div>
                         ) : (
@@ -1350,7 +1352,7 @@ export default function WorkExperiencePage() {
               {resumesQuery.data?.map((resume) => (
                 <div 
                   key={resume.slug}
-                  className="p-3 border rounded-md cursor-pointer hover:bg-slate-50"
+                  className="p-3 border rounded-md cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"
                   onClick={() => handleResumeSelect({ slug: resume.slug, title: resume.title })}
                 >
                   <div className="font-medium">{resume.title}</div>
